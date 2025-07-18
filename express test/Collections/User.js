@@ -15,7 +15,7 @@ let mongo =require("mongoose");
         required:true
     },
     city:{
-        type:Number,
+        type:String,
         default:"karachi"
      
     },

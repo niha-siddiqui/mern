@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css"
+
 
 
 function SaveData() {
@@ -9,25 +12,50 @@ function SaveData() {
   const [password, setpassword] = useState("");
   const [age, setage] = useState(0);
 
-  async function submitfunc() {
+  const  submitfunc = async (e) =>{
+    e.preventDefault();
     try {
-      await axios.post("http://localhost:4000/crud/save", {
+      let user_regex = /^[a-zA-Z]{2,15}$/
+    let password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/
+
+      if(!name || !email || !password || age <=0 ){
+        toast.error("All fields are required")
+
+      }
+      if(!user_regex.test(name)){
+        toast.error("Invalid username")
+        return
+
+      }
+      if(!password_regex.test(password)){
+        toast.error("password must be strong")
+        return
+
+      }
+
+      await axios.post("http://localhost:4000/save/", {
         name: name,
         email: email,
         password: password,
         age: age
-      }).then(() => {
-        alert("Data saved successfully");
-      }).catch((e) => {
-        console.log(e.message);
-      });
-    } catch (error) {
-      console.log(error);
+      }).then((a) => {
+       toast.success(a.data.msg)
+      })
     }
-  }
+      catch(error){
+        if (error.status === 409){
+          alert(error.response.data.msg)
+        }
+      else{
+       toast.success(error.response.data.msg)
+
+      }
+    } 
+  };
 
   return (
     <div className="container mt-5">
+      <ToastContainer/>
       <h2 className="text-center mb-4">SAVE DATA FORM</h2>
       <hr />
 

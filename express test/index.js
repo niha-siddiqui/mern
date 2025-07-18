@@ -11,12 +11,12 @@ let app = exp()
   
     app.use(cor())
     app.use(exp.json())
-    app.use("/crud/",route);
+    app.use("/",route);
   
 
 db().then(()=>{
     app.listen(port_no,function(){
-        console.log(`server started at http://localhost:${port_no}/crud/`)
+        console.log(`server started at http://localhost:${port_no}/save/`)
 })
     }).catch((e)=>{
         console.log(e.message)
