@@ -16,7 +16,7 @@ let app = exp()
 
 db().then(()=>{
     app.listen(port_no,function(){
-        console.log(`server started at http://localhost:${port_no}/save/`)
+        console.log(`server started at http://localhost:${port_no}/`)
 })
     }).catch((e)=>{
         console.log(e.message)

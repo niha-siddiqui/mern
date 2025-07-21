@@ -1,5 +1,18 @@
 const User = require("../Collections/User");
 let bb = require("bcrypt");
+let mail = require("nodemailer");
+  require("dotenv").config()
+
+
+let secure_info =mail.createTransport({
+  service :"gmail",
+  auth:{
+    user : process.env.EMAIL,
+    pass: process.env.PASSKEY
+  }
+})
+
+
 
  let all_func ={
     Rgister : async function(req ,res){
@@ -20,6 +33,24 @@ let bb = require("bcrypt");
         await u.save()
         res.status(200).json({msg : "data saved successfully"})
        }
+
+
+        let EmailBodyInfo = {
+          to : email,
+          from : process.env.EMAIL,
+          subject :"Account has been registered successfully",
+          html : `<h3>Hello${name}</h3><br/><p>account has been registered</p>`
+        }
+
+        secure_info.sendMail(EmailBodyInfo, function(e,i){
+          if (e) {
+            console.log(e)
+            
+          } else {
+            console.log("Email has been sent")
+            
+          }
+        })
    
        
    }catch(error){
@@ -27,7 +58,21 @@ let bb = require("bcrypt");
 
    }
    
-   }}
+   },
+  
+  Read : async function(req,res){
+    try {
+      let user_data =await User.find().
+      sort({Record_time : -1})
+      res.status(201).json(user_data)
+      
+    } catch (error) {
+      console.log(error.msg)
+      res.status(504).json({msg :error.msg})
+      
+    }
+  }
+}
    
    module.exports = all_func 
 
