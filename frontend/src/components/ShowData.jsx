@@ -52,14 +52,14 @@ function ShowData() {
     filteredUsers.sort((a,b) => b.age - a.age)
   }
 
-  async function DeleteRecord(id,n) {
-    if (window.confirm(`are you sure you want to delete ${n} record`)) {
+  async function DeleteRecord(id,name) {
+    if (window.confirm(`are you sure you want to delete ${name} record`)) {
       await axios.delete(`http://localhost:4000/remove/${id}`).then(()=>{
         toast.success("record deleted successfully");
         Datalao()
-      }).catch((e)=>
-    toast.error(e.msg)
-)
+      }).catch((e)=>{
+    toast.error(e.message)
+    })
     }
   }
 
