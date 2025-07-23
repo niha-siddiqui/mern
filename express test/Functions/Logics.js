@@ -1,5 +1,6 @@
 const User = require("../Collections/User");
 let bb = require("bcrypt");
+const e = require("cors");
 let mail = require("nodemailer");
   require("dotenv").config()
 
@@ -71,9 +72,31 @@ let secure_info =mail.createTransport({
       res.status(504).json({msg :error.msg})
       
     }
+  },
+  DeleteRecord : async function(req,res){
+    try {
+      let {id} =req.params
+      let dhundo = await User.findById(id)
+      if(!dhundo){
+        res.status(404).json({msg:" record doesnot found"})
+      }
+      else{
+        await User.findByIdAndDelete(dhundo)
+        res.status(504).json({msg:" record deleted"})
+  
+      }
+      
+    } catch (error) {
+      res.status(504).json({msg:error.message})
+    
+      
+    }
   }
 }
-   
+        
+ 
+
+
    module.exports = all_func 
 
   
