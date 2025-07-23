@@ -58,7 +58,7 @@ function ShowData() {
         toast.success("record deleted successfully");
         Datalao()
       }).catch((e)=>
-    toast.error(e.message)
+    toast.error(e.msg)
 )
     }
   }
@@ -73,9 +73,9 @@ function ShowData() {
     paddingTop: "30px",
     paddingBottom: "30px",
   }}
->
+><ToastContainer/>
   <div className="container">
-    <ToastContainer/>
+    
     <h1
       className="text-center mb-5 fw-bold"
       style={{ fontSize: "2.5rem" }}
