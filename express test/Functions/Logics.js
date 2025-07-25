@@ -82,7 +82,33 @@ let secure_info =mail.createTransport({
       }
       else{
         await User.findByIdAndDelete(dhundo)
-        res.status(504).json({msg:" record deleted"})
+        res.status(201).json({msg:" record deleted"})
+  
+      }
+      
+    } catch (error) {
+      res.status(504).json({msg:error.message})
+    
+      
+    }
+  },
+  EditRecord : async function(req,res){
+    try {
+      let {id} =req.params
+      let {name,email,password,city} = req.body
+      let dhundo = await User.findById(id)
+      if(!dhundo){
+        res.status(404).json({msg:" record doesnot found"})
+      }
+      else{
+        let naya_password =bb.hashSync(password,15)
+        await User.findByIdAndUpdate(id,{
+          name:name,
+          email: email,
+          password:naya_password,
+          city:city
+        })
+        res.status(201).json({msg:" record updated"})
   
       }
       
@@ -92,6 +118,7 @@ let secure_info =mail.createTransport({
       
     }
   }
+
 }
         
  

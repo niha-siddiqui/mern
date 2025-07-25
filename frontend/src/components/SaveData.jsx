@@ -44,10 +44,10 @@ function SaveData() {
     }
       catch(error){
         if (error.status === 409){
-          alert(error.response.data.msg)
+          alert(error.response?.data.msg)
         }
       else{
-       toast.success(error.response.data.msg)
+       toast.success(error.response?.data.msg)
 
       }
     } 

@@ -1,12 +1,19 @@
 import axios from "axios";
 import React,{useEffect, useState} from "react";
 import { data } from "react-router-dom";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify/unstyled";
+import { ToastContainer, toast } from "react-toastify";
+
 function ShowData() {
     let [user ,setUser]= useState([])
     let [search, setSearch] = useState('')
   let [sortOption, setSortOption] = useState('')
+
+
+  let[name ,setname]=useState("");
+  let[email ,setemail]=useState("");
+  let[password ,setpassword]=useState("");
+  let[city ,setcity]=useState("");
+  let[id ,setid]=useState("");
 
 
 
@@ -19,13 +26,17 @@ function ShowData() {
     }, [])
 
     async function Datalao(){
+       try {
         await axios.get("http://localhost:4000/show").
         then((a)=>{
             console.log(a.data)
             setUser(a.data)
         }).catch((e)=>{
-            console.log(e.message)
+          toast.error(e.message)
         })
+       } catch (e) {
+       toast.error(e.message)
+       }
     }
 
 // filter 
@@ -53,17 +64,47 @@ function ShowData() {
   }
 
   async function DeleteRecord(id,name) {
+  try {
     if (window.confirm(`are you sure you want to delete ${name} record`)) {
-      await axios.delete(`http://localhost:4000/remove/${id}`).then(()=>{
+      await axios.delete(`http://localhost:4000/remove/${id}`).
+      then(()=>{
         toast.success("record deleted successfully");
         Datalao()
       }).catch((e)=>{
     toast.error(e.message)
     })
     }
+  } catch (e) {
+    toast.error(e.message)
+  }
   }
 
+  function setData(name,email,password,city,id){
+    setname(name)
+    setemail(email)
+    setpassword(password)
+    setcity(city)
+    setid(id)
+  }
 
+  async function EditRecord() {
+    try {
+      await axios.put(`http://localhost:4000/update/${id}`,{
+        name:name,
+          email: email,
+          password:password,
+          city:city
+      }).then((a)=>{
+        toast.success(a.data.msg);
+        Datalao()
+      }).catch((e)=>{
+        toast.error(e.message)
+      })
+    } catch (error) {
+      toast.error(error.response.data.msg)
+      
+    }
+  }
   return (
     <div
   className="main-background"
@@ -157,7 +198,10 @@ function ShowData() {
               {/* Buttons (no functions, only visible) */}
               <div className="d-flex justify-content-center mt-3">
                 <button
-                  className="btn me-2"
+                  className="btn me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  onClick={()=>{
+                    setData(i.name,i.email,i.password,i.city,i._id)
+                  }}
                   style={{
                     borderRadius: "25px",
                     padding: "6px 20px",
@@ -194,6 +238,39 @@ function ShowData() {
       <h4 className="text-center text-muted">No user found</h4>
     )}
   </div>
+
+  
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" className="form-control mt-2" value={name} onChange={(e)=>setname(e.target.value)}/>
+        <input type="email" className="form-control mt-2" value={email} onChange={(e)=>setemail(e.target.value)}/>
+        <input type="password" className="form-control mt-2" value={password} onChange={(e)=>setpassword(e.target.value)}/>
+        <input type="text" className="form-control mt-2" value={city} onChange={(e)=>setcity(e.target.value)}/>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onClick={()=>{
+          EditRecord();
+          document.querySelector(".close").click()
+        }}>Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 </div>
       )
     }
