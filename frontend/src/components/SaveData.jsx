@@ -16,7 +16,7 @@ function SaveData() {
     e.preventDefault();
     try {
       let user_regex = /^[a-zA-Z]{2,15}$/
-    let password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,32}$/
+    let password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 
       if(!name || !email || !password || age <=0 ){
         toast.error("All fields are required")

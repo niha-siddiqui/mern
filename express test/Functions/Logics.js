@@ -2,6 +2,7 @@ const User = require("../Collections/User");
 let bb = require("bcrypt");
 const e = require("cors");
 let mail = require("nodemailer");
+let jwt=require("jsonwebtoken")
   require("dotenv").config()
 
 
@@ -115,6 +116,29 @@ let secure_info =mail.createTransport({
     } catch (error) {
       res.status(504).json({msg:error.message})
     
+      
+    }
+  },
+
+  Login: async function (req,res){
+    try {
+      let {email, password} =req.body;
+      let email_check= await User.findOne({email :email})
+      if(!email_check){
+        res.status(404).json({msg : "Email not found"})
+      }
+      let password_check = bb.compareSync(password ,email_check.password)
+      if(!password_check){
+        res.status(404).json({msg : "password is invalid"})
+      }
+      let mera_token =jwt.sign({id: email_check._id},"niha" ,{expiresIn :"5h"})
+      res.status(200).json({mera_token,
+        user :{id :email_check._id , name :email_check.name ,email: email_check.email},
+        msg : "login Successfully"
+      })
+    } catch (error) {
+      res.status(504).json({msg : error.message})
+      console.log(error.message)
       
     }
   }
