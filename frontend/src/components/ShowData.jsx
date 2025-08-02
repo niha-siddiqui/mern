@@ -1,6 +1,6 @@
 import axios from "axios";
 import React,{useEffect, useState} from "react";
-import { data } from "react-router-dom";
+
 import { ToastContainer, toast } from "react-toastify";
 
 function ShowData() {
@@ -22,8 +22,7 @@ function ShowData() {
 
     async function Datalao(){
        try {
-        await axios.get("http://localhost:4000/show").
-        then((a)=>{
+        await axios.get("http://localhost:4000/show").then((a)=>{
             console.log(a.data)
             setUser(a.data)
         }).catch((e)=>{
@@ -53,8 +52,7 @@ function ShowData() {
   async function DeleteRecord(id,name) {
   try {
     if (window.confirm(`are you sure you want to delete ${name} record`)) {
-      await axios.delete(`http://localhost:4000/remove/${id}`).
-      then(()=>{
+      await axios.delete(`http://localhost:4000/remove/${id}`).then(()=>{
         toast.success("record deleted successfully");
         Datalao()
       }).catch((e)=>{

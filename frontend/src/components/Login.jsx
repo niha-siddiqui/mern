@@ -5,8 +5,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
 
 export default function Login() {
-    let[email ,setemail]=useState("");
-  let[password ,setpassword]=useState("");
+  let [email ,setemail]=useState("");
+  let [password ,setpassword]=useState("");
   let nav = useNavigate()
   async function LoginLogic(){
     try {
@@ -20,10 +20,10 @@ export default function Login() {
         })
         .then((a)=>{
             setemail("")
-            setemail("")
-            localStorage.setItem("userinfo" ,JSON.stringify(a.data.user))
-            toast.success("login successfl");
-            nav("/ShowData")
+            setpassword("")
+            localStorage.setItem("UserInfo" ,JSON.stringify(a.data.user))
+            toast.success(a.data.msg);
+            nav("/show")
         }).catch((e)=>{
             toast.error(e.message)
         })
@@ -59,11 +59,13 @@ export default function Login() {
         onChange={(e) => setpassword(e.target.value)}
       />
     </div>
-    <button className="btn btn-success mt-3" type="submit" onClick={LoginLogic}>
-      Signin
-    </button>
-    <br />
+<button type="button"className="sumit-btn"onClick={LoginLogic}>Signin</button>
+    <br /><br />
     <Link className="mt-3" to ="/fp">ForgetPassword</Link>
   </div>
   )
 }
+
+
+
+
