@@ -16,11 +16,6 @@ function ShowData() {
   let[id ,setid]=useState("");
 
 
-
-
-
-
-
     useEffect(() => {
     Datalao()
     }, [])
@@ -38,14 +33,6 @@ function ShowData() {
        toast.error(e.message)
        }
     }
-
-// filter 
-
-
-
-
-
-
 
   // Filtered data based only on name
   let filteredUsers = user.filter((i) =>
@@ -102,7 +89,7 @@ function ShowData() {
       })
     } catch (error) {
       toast.error(error.response.data.msg)
-      
+
     }
   }
   return (
@@ -116,7 +103,7 @@ function ShowData() {
   }}
 ><ToastContainer/>
   <div className="container">
-    
+
     <h1
       className="text-center mb-5 fw-bold"
       style={{ fontSize: "2.5rem" }}
@@ -239,7 +226,7 @@ function ShowData() {
     )}
   </div>
 
-  
+
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -252,7 +239,7 @@ function ShowData() {
         <input type="email" className="form-control mt-2" value={email} onChange={(e)=>setemail(e.target.value)}/>
         <input type="password" className="form-control mt-2" value={password} onChange={(e)=>setpassword(e.target.value)}/>
         <input type="text" className="form-control mt-2" value={city} onChange={(e)=>setcity(e.target.value)}/>
-        
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal">Close</button>
@@ -278,4 +265,3 @@ function ShowData() {
 
 
 
-  
